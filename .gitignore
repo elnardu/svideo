@@ -1,0 +1,4 @@
+static/
+.DS_Store
+video.json
+node_modules/
