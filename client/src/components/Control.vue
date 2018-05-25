@@ -1,8 +1,8 @@
 <template lang="html">
   <div class="mt-3 w-100 control">
     <form class="input-group" @submit.prevent="changeVideo">
-        <input type="text" class="form-control w-100" id="inlineFormInput" v-model="url" :placeholder="video.url">
-        <span class="input-group-btn">
+        <input type="text" class="form-control" id="inlineFormInput" v-model="url" :placeholder="video.url ? video.url : 'Paste your url here'">
+        <span class="input-group-append">
           <button type="submit" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
         </span>
     </form>
@@ -10,13 +10,13 @@
     <div class="btn-group mt-2 w-100">
       <button v-if="!video.paused" @click="pause" type="button" name="button" class="btn btn-danger w-100"><i class="fa fa-pause" aria-hidden="true"></i></button>
       <button v-else @click="play" type="button" name="button" class="btn btn-success w-100"><i class="fa fa-play" aria-hidden="true"></i></button>
-      <button @click="toggleFullScreen" type="button" name="button" class="btn btn-secondary w-100"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>
-      <button @click="toggleUsersList" type="button" name="button" class="btn btn-secondary w-100"><i class="fa fa-users" aria-hidden="true"></i> {{users.length}}</button>
+      <button @click="toggleFullScreen" type="button" name="button" class="btn btn-light w-100"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>
+      <button @click="toggleUsersList" type="button" name="button" class="btn btn-light w-100"><i class="fa fa-users" aria-hidden="true"></i> {{users.length}}</button>
     </div>
 
     <div v-if="usersListVisible" class="usersList mt-1">
       <ul class="list-group">
-        <li class="list-group-item" v-for="user in users">{{user}}</li>
+        <li class="list-group-item" v-for="(user, i) in users" :key="i">{{user}}</li>
       </ul>
     </div>
   </div>

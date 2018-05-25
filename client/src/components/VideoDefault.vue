@@ -1,7 +1,6 @@
 <template lang="html">
   <div id="videojs-container" class="d-flex justify-content-center align-items-center">
     <video id="videojs" class="video-js vjs-default-skin vjs-big-play-centered">
-      <track src="/s/got.vtt" kind="captions" srclang="ru" label="Russian">
     </video>
   </div>
 </template>
@@ -66,6 +65,5 @@ export default {
 #videojs-container {
   width: 100%;
   height: 100vh;
-  border-right: solid 2px white;
 }
 </style>

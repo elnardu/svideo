@@ -61,6 +61,5 @@ export default {
 #yplayer-container {
   width: 100%;
   height: 100vh;
-  border-right: solid 2px white;
 }
 </style>

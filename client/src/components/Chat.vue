@@ -4,18 +4,18 @@
     <div class="messages" id="messages">
       <div class="scroll-content">
 
-        <div class="message" v-for="mes in messages" :class="{server: mes.server}">
+        <div class="message" v-for="(mes, i) in messages" :class="{server: mes.server}" :key="i">
           <span v-if="!mes.server">{{mes.from}}: </span>{{mes.text}}
         </div>
       </div>
     </div>
     <form v-if="!logged" class="my-2" @submit.prevent="login">
-      <input type="text" class="form-control w-100" v-model="name" placeholder="Имя">
-      <button type="submit" class="btn btn-primary mt-1 w-100">Войти</button>
+      <input type="text" class="form-control w-100" v-model="name" placeholder="Username">
+      <button type="submit" class="btn btn-primary mt-1 w-100">Enter chat</button>
     </form>
     <form v-if="logged" class="my-2 message-form" @submit.prevent="send">
-      <input type="text" class="form-control w-100" v-model="text" placeholder="Сообщение">
-      <button type="submit" class="btn btn-success mt-1 w-100">Отправить</button>
+      <input type="text" class="form-control w-100" v-model="text" placeholder="Message">
+      <button type="submit" class="btn btn-success mt-1 w-100">Send</button>
     </form>
   </div>
 </template>
@@ -33,7 +33,6 @@ export default {
     }
   },
   mounted() {
-    this.notificationSound = new Audio('/static/sound.mp3')
 
     this.socket.on('message', message => {
       // if (!this.logged) return

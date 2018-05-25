@@ -2,21 +2,31 @@ const express = require('express'),
   app = express(),
   http = require('http').Server(app),
   io = require('socket.io')(http),
-  port = 8080,
+  port = 3000,
   path = require('path'),
-  morgan = require('morgan'),
-  bodyParser = require('body-parser'),
-  jsonfile = require('jsonfile')
+  jsonfile = require('jsonfile'),
+  fs = require('fs')
 
-var video = require('./video.json')
+
+let videoConfFilePath = path.resolve(__dirname + '/../configuration/video.json')
+
+if (fs.existsSync(videoConfFilePath)) {
+  var video = require(videoConfFilePath)
+} else {
+  var video = {
+    paused: true,
+    time: 0,
+    url: "",
+    type: 'none'
+  }
+}
 
 app.use('/', express.static(path.resolve(__dirname + '/../client/dist')))
-app.use('/s/', express.static(path.resolve(__dirname + '/../static')))
 
 var users = []
 
 io.on('connection', socket => {
-  let name = 'Кто-то'
+  let name = 'Someone'
   users.push(name)
   console.log(users)
 
@@ -25,7 +35,7 @@ io.on('connection', socket => {
 
   socket.on('setUrl', url => {
     video = {
-      paused: true,
+      paused: false,
       time: 0,
       url: url,
       type: 'default'
@@ -37,7 +47,7 @@ io.on('connection', socket => {
     console.log(video)
     io.emit('message', {
       server: true,
-      text: `${name} поставил видосик`
+      text: `${name} added new video`
     })
     io.emit('video', video)
   })
@@ -53,7 +63,7 @@ io.on('connection', socket => {
     console.log(video)
     io.emit('message', {
       server: true,
-      text: `${name} поставил на паузу`
+      text: `${name} paused the video`
     })
     io.emit('video', video)
   })
@@ -63,7 +73,7 @@ io.on('connection', socket => {
     console.log(video)
     io.emit('message', {
       server: true,
-      text: `${name} включил воспроизведение`
+      text: `${name} unpaused the video`
     })
     io.emit('video', video)
   })
@@ -80,7 +90,7 @@ io.on('connection', socket => {
     console.log(users)
     io.emit('message', {
       server: true,
-      text: `${name} приперся в чат`
+      text: `${name} joined`
     })
     io.emit('users', users)
   })
@@ -88,10 +98,10 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     users.splice(users.indexOf(name), 1)
     console.log(users)
-    if (name != 'Кто-то') {
+    if (name != 'Someone') {
       io.emit('message', {
         server: true,
-        text: `${name} свалил нафиг`
+        text: `${name} left`
       })
     }
     io.emit('users', users)
@@ -110,7 +120,7 @@ http.listen(port, () => console.log('listening on port ' + port))
 process.stdin.resume()
 process.on('exit', code => {
   console.log('exit')
-  jsonfile.writeFileSync('./video.json', video)
+  jsonfile.writeFileSync(videoConfFilePath, video)
   process.exit(code)
 })
 

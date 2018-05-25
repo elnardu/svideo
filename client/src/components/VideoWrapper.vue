@@ -21,6 +21,8 @@ export default {
 <style lang="css">
 #videoWrapper {
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  display: block;
+  border-right: solid 2px white;
 }
 </style>
