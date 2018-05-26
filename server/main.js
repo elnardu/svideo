@@ -120,10 +120,16 @@ http.listen(port, () => console.log('listening on port ' + port))
 process.stdin.resume()
 process.on('exit', code => {
   console.log('exit')
-  jsonfile.writeFileSync(videoConfFilePath, video)
-  process.exit(code)
 })
 
 process.on('SIGINT', () => {
-  process.exit(0);
-});
+  http.close()
+  jsonfile.writeFileSync(videoConfFilePath, video)
+  process.exit(0)
+})
+
+process.on('SIGTERM', function () {
+  http.close()
+  jsonfile.writeFileSync(videoConfFilePath, video)
+  process.exit(0)  
+})
