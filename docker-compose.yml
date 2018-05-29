@@ -2,7 +2,7 @@ version: '3'
 services:
   svideo:
     image: elnardu/svideo:latest
-    # build: ./
+    build: ./
     stop_signal: SIGTERM
     ports:
       - "8080:3000"

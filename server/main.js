@@ -44,6 +44,9 @@ io.on('connection', socket => {
     if (url.includes('youtu'))
       video.type = 'youtube'
 
+    if (url.includes('.m3u8'))
+      video.type = 'hls'
+
     console.log(video)
     io.emit('message', {
       server: true,
@@ -115,7 +118,7 @@ setInterval(() => {
   io.emit('video', video)
 }, 1000)
 
-http.listen(port, () => console.log('listening on port ' + port))
+http.listen(port, () => console.log('listening'))
 
 process.stdin.resume()
 process.on('exit', code => {
