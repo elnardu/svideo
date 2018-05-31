@@ -1,4 +1,4 @@
-# svideo
+# svideo [![Docker Build Status](https://img.shields.io/docker/build/elnardu/svideo.svg)](https://hub.docker.com/r/elnardu/svideo/)
 Video player with time synchronization between users
 
 ## Usage 
